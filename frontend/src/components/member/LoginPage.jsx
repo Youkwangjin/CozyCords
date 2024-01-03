@@ -2,20 +2,20 @@ import React, {useEffect, useState} from "react";
 import './LoginPage.css';
 
 export default function LoginPage() {
-    const [id, serId] = useState('');
+    const [userid, setUserId] = useState('');
     const [password, setPassword] =  useState('');
-    const [idValid, setIdValid] = useState(false);
+    const [useridValid, setUserIdValid] = useState(false);
     const [passwordValid, setPasswordValid] = useState(false);
     const [notAllow, setNotAllow] = useState(true);
 
-    const handleId = (e) => {
+    const handleUserid = (e) => {
         const newId = e.target.value;
-        serId(newId);
+        setUserId(newId);
         const regex = /^[a-z]+[a-z0-9]{5,19}$/g;
         if(regex.test(newId)) {
-            setIdValid(true);
+            setUserIdValid(true);
         } else {
-            setIdValid(false);
+            setUserIdValid(false);
         }
     }
 
@@ -31,12 +31,12 @@ export default function LoginPage() {
     }
 
     useEffect(() => {
-        if(idValid && passwordValid) {
+        if(useridValid && passwordValid) {
             setNotAllow(false);
             return;
         }
         setNotAllow(true);
-    }, [idValid, passwordValid]);
+    }, [useridValid, passwordValid]);
 
 
     return (
@@ -49,13 +49,13 @@ export default function LoginPage() {
                     <input
                         className="input"
                         name="userid"
-                        value={id}
+                        value={userid}
                         placeholder="abcd1234"
-                        onChange={handleId}/>
+                        onChange={handleUserid}/>
                 </div>
                 <div className="errorMessageWrap">
                     {
-                        !idValid && id.length > 0 && (
+                        !useridValid && userid.length > 0 && (
                             <div>올바른 아이디를 입력해주세요.</div>
                         )
                     }
