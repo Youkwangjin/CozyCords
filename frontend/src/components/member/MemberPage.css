@@ -25,6 +25,8 @@
     .contentWrap {
         margin-top: 26px;
         flex: 1;
+        max-height: 500px;
+        overflow-y: auto;
     }
 
     .inputTitle {

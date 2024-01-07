@@ -1,14 +1,14 @@
-import React, {useEffect, useState} from "react";
-import './LoginPage.css';
+import React, { useEffect, useState } from "react";
+import './MemberPage.css';
 
 export default function LoginPage() {
-    const [userid, setUserId] = useState('');
-    const [password, setPassword] =  useState('');
+    const [user_id, setUserId] = useState('');
+    const [user_pwd, setUserPwd] =  useState('');
     const [useridValid, setUserIdValid] = useState(false);
     const [passwordValid, setPasswordValid] = useState(false);
     const [notAllow, setNotAllow] = useState(true);
 
-    const handleUserid = (e) => {
+    const handleUserId = (e) => {
         const newId = e.target.value;
         setUserId(newId);
         const regex = /^[a-z]+[a-z0-9]{5,19}$/g;
@@ -19,9 +19,9 @@ export default function LoginPage() {
         }
     }
 
-    const handlePassword = (e) => {
+    const handleUserPwd = (e) => {
         const newPassword = e.target.value;
-        setPassword(newPassword);
+        setUserPwd(newPassword);
         const regex = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[$`~!@%*#^?&\\()\-_=+]).{8,16}$/;
         if(regex.test(newPassword)) {
             setPasswordValid(true);
@@ -48,14 +48,14 @@ export default function LoginPage() {
                 <div className="inputWrap">
                     <input
                         className="input"
-                        name="userid"
-                        value={userid}
+                        name="user_id"
+                        value={user_id}
                         placeholder="abcd1234"
-                        onChange={handleUserid}/>
+                        onChange={handleUserId}/>
                 </div>
                 <div className="errorMessageWrap">
                     {
-                        !useridValid && userid.length > 0 && (
+                        !useridValid && user_id.length > 0 && (
                             <div>올바른 아이디를 입력해주세요.</div>
                         )
                     }
@@ -64,14 +64,14 @@ export default function LoginPage() {
                 <div className="inputWrap">
                     <input
                         className="input"
-                        name="password"
-                        value={password}
+                        name="user_pwd"
+                        value={user_pwd}
                         placeholder="영문, 숫자, 특수문자 포함 8자 이상"
-                        onChange={handlePassword}/>
+                        onChange={handleUserPwd}/>
                 </div>
                 <div className="errorMessageWrap">
                     {
-                        !passwordValid && password.length > 0 && (
+                        !passwordValid && user_pwd.length > 0 && (
                             <div>올바른 비밀번호를 입력해주세요.</div>
                         )
                     }
