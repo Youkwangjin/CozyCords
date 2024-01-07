@@ -1,4 +1,4 @@
-package com.example.fullstack.controller;
+package com.example.fullstack.controller.home;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

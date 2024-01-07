@@ -25,17 +25,20 @@ public class JwtProvider {
         2. 토큰 만료 기간 설정 (expiredDate)
         3. jwt 생성
      */
-    public String createJwt(String email) {
+    public String createJwt(String userId) {
         Date expiredDate = Date.from(Instant.now().plus(1, ChronoUnit.HOURS));
         Key key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
-        // jwt 생성
+        // 아이디를 기반으로 jwt 생성
         String jwt = Jwts.builder()
                 .signWith(key, SignatureAlgorithm.HS256)
-                .setSubject(email).setIssuedAt(new Date()).setExpiration(expiredDate) // jwt 주체 설정과 생성시간과 만료시간
+                .setSubject(userId) // 아이디를 subject 설정
+                .setIssuedAt(new Date())
+                .setExpiration(expiredDate)
                 .compact();
 
         return jwt;
     }
+
     // 검증
     public String validate(String jwt) {
         Claims claims = null;
@@ -51,5 +54,4 @@ public class JwtProvider {
         }
         return claims.getSubject();
     }
-
 }

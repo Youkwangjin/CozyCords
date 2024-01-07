@@ -28,23 +28,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         try {
             String token = parseBearerToken(request);
-        /*
-            1. token이 없다면 검증 실패
-            2. null 이 될 수 있는 형태가 SigningKey가 안맞거나 토큰이 만료될 경우
-         */
             if (token == null) {
                 filterChain.doFilter(request, response);
                 return;
             }
 
-            String email = jwtProvider.validate(token);
-            if (email == null) {
+            String userId = jwtProvider.validate(token);
+            if (userId == null) {
                 filterChain.doFilter(request, response);
                 return;
             }
 
+            // 아이디를 사용하여 인증 토큰 생성
             AbstractAuthenticationToken authenticationToken =
-                    new UsernamePasswordAuthenticationToken(email, null, AuthorityUtils.NO_AUTHORITIES);
+                    new UsernamePasswordAuthenticationToken(userId, null, AuthorityUtils.NO_AUTHORITIES);
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
             SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
@@ -57,17 +54,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
-
     }
+
     private String parseBearerToken(HttpServletRequest request) {
         String authorization = request.getHeader("Authorization");
-        boolean hasAuthorization = StringUtils.hasText(authorization);
-        if (!hasAuthorization) return null;
+        if (!StringUtils.hasText(authorization)) return null;
 
-        boolean isBearer = authorization.startsWith("Bearer ");
-        if(!isBearer) return null;
+        if (!authorization.startsWith("Bearer ")) return null;
 
-        String token = authorization.substring(7);
-        return token;
+        return authorization.substring(7);
     }
 }
