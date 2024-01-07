@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
+import axios from 'axios';
 import './MemberPage.css';
 
 export default function LoginPage() {
-    const [user_id, setUserId] = useState('');
-    const [user_pwd, setUserPwd] =  useState('');
-    const [user_name, setUserName] = useState('');
-    const [user_tel, setUserTel] = useState('');
+    const [userId, setUserId] = useState('');
+    const [userPwd, setUserPwd] = useState('');
+    const [userName, setUserName] = useState('');
+    const [userTel, setUserTel] = useState('');
+    const [userNickname, setUserNickname] = useState('');
+    const [userAge, setUserAge] = useState('');
+    const [userGender, setUserGender] = useState('');
+    const [userAddress, setUserAddress] = useState('');
 
     const [userIdValid, setUserIdValid] = useState(false);
     const [userPwdValid, setUserPwdValid] = useState(false);
@@ -59,6 +64,11 @@ export default function LoginPage() {
         }
     }
 
+    const handleUserNickname = (e) => setUserNickname(e.target.value);
+    const handleUserAge = (e) => setUserAge(e.target.value);
+    const handleUserGender = (e) => setUserGender(e.target.value);
+    const handleUserAddress = (e) => setUserAddress(e.target.value);
+
     useEffect(() => {
         if(userIdValid && userPwdValid && userNameValid && userTelValid) {
             setNotAllow(false);
@@ -67,107 +77,139 @@ export default function LoginPage() {
         setNotAllow(true);
     }, [userIdValid, userPwdValid, userNameValid, userTelValid]);
 
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        if (!notAllow) {
+            try {
+                const response = await axios.post('http://localhost:8080/api/register', {
+                    userId,
+                    userPwd,
+                    userName,
+                    userTel,
+                    userNickname,
+                    userAge,
+                    userGender,
+                    userAddress
+                });
+                window.location.href = '/LoginPage.jsx';
+            } catch (error) {
+                console.error("회원가입 오류", error);
+            }
+        }
+    };
+
 
     return (
         <div className="page">
-            <div className="titleWrap">회원가입</div>
-            <div className="contentWrap">
-                <div className="inputTitle">아이디</div>
-                <div className="inputWrap">
-                    <input
-                        className="input"
-                        name="user_id"
-                        value={user_id}
-                        placeholder="abcd1234"
-                        onChange={handleUserId}/>
+            <form onSubmit={handleSubmit}>
+                <div className="titleWrap">회원가입</div>
+                <div className="contentWrap">
+                    <div className="inputTitle">아이디</div>
+                    <div className="inputWrap">
+                        <input
+                            className="input"
+                            name="userId"
+                            value={userId}
+                            placeholder="abcd1234"
+                            onChange={handleUserId}/>
+                    </div>
+                    <div className="errorMessageWrap">
+                        {
+                            !userIdValid && userId.length > 0 && (
+                                <div>올바른 아이디를 입력해주세요.</div>
+                            )
+                        }
+                    </div>
+                    <div style={{marginTop: "26px"}} className="inputTitle">비밀번호</div>
+                    <div className="inputWrap">
+                        <input
+                            className="input"
+                            name="userPwd"
+                            value={userPwd}
+                            placeholder="영문, 숫자, 특수문자 포함 8자 이상"
+                            onChange={handleUserPwd}/>
+                    </div>
+                    <div className="errorMessageWrap">
+                        {
+                            !userPwdValid && userPwd.length > 0 && (
+                                <div>올바른 비밀번호를 입력해주세요.</div>
+                            )
+                        }
+                    </div>
+                    <div style={{marginTop: "26px"}} className="inputTitle">이름</div>
+                    <div className="inputWrap">
+                        <input
+                            className="input"
+                            name="userName"
+                            value={userName}
+                            placeholder="이름을 입력해주세요."
+                            onChange={handleUserName}/>
+                    </div>
+                    <div className="errorMessageWrap">
+                        {
+                            !userNameValid && userName.length > 0 && (
+                                <div>올바른 이름을 입력해주세요.</div>
+                            )
+                        }
+                    </div>
+                    <div style={{marginTop: "26px"}} className="inputTitle">닉네임</div>
+                    <div className="inputWrap">
+                        <input
+                            className="input"
+                            name="userNickname"
+                            value={userNickname}
+                            placeholder="닉네임을 입력해주세요."
+                            onChange={handleUserNickname}/>
+                    </div>
+                    <div style={{marginTop: "26px"}} className="inputTitle">나이</div>
+                    <div className="inputWrap">
+                        <input
+                            className="input"
+                            name="userAge"
+                            value={userAge}
+                            placeholder="나이를 입력해주세요."
+                            onChange={handleUserAge}/>
+                    </div>
+                    <div style={{marginTop: "26px"}} className="inputTitle">성별</div>
+                    <div className="inputWrap">
+                        <input
+                            className="input"
+                            name="userGender"
+                            value={userGender}
+                            placeholder="성별을 입력해주세요."
+                            onChange={handleUserGender}/>
+                    </div>
+                    <div style={{marginTop: "26px"}} className="inputTitle">전화번호</div>
+                    <div className="inputWrap">
+                        <input
+                            className="input"
+                            name="userTel"
+                            value={userTel}
+                            placeholder="전화번호를 입력해주세요."
+                            onChange={handleUserTel}/>
+                    </div>
+                    <div className="errorMessageWrap">
+                        {
+                            !userTelValid && userTel.length > 0 && (
+                                <div>올바른 전화번호를 입력해주세요.</div>
+                            )
+                        }
+                    </div>
+                    <div style={{marginTop: "26px"}} className="inputTitle">주소</div>
+                    <div className="inputWrap">
+                        <input
+                            className="input"
+                            name="user_address"
+                            value={userAddress}
+                            placeholder="주소를 입력해주세요."
+                            onChange={handleUserAddress}/>
+                    </div>
+                    <div>
+                        <button type="submit" disabled={notAllow} className="bottomButton">확인
+                        </button>
+                    </div>
                 </div>
-                <div className="errorMessageWrap">
-                    {
-                        !userIdValid && user_id.length > 0 && (
-                            <div>올바른 아이디를 입력해주세요.</div>
-                        )
-                    }
-                </div>
-                <div style={{marginTop: "26px"}} className="inputTitle">비밀번호</div>
-                <div className="inputWrap">
-                    <input
-                        className="input"
-                        name="user_pwd"
-                        value={user_pwd}
-                        placeholder="영문, 숫자, 특수문자 포함 8자 이상"
-                        onChange={handleUserPwd}/>
-                </div>
-                <div className="errorMessageWrap">
-                    {
-                        !userPwdValid && user_pwd.length > 0 && (
-                            <div>올바른 비밀번호를 입력해주세요.</div>
-                        )
-                    }
-                </div>
-                <div style={{marginTop: "26px"}} className="inputTitle">이름</div>
-                <div className="inputWrap">
-                    <input
-                        className="input"
-                        name="user_name"
-                        value={user_name}
-                        placeholder="이름을 입력해주세요."
-                        onChange={handleUserName}/>
-                </div>
-                <div className="errorMessageWrap">
-                    {
-                        !userNameValid && user_name.length > 0 && (
-                            <div>올바른 이름을 입력해주세요.</div>
-                        )
-                    }
-                </div>
-                <div style={{marginTop: "26px"}} className="inputTitle">닉네임</div>
-                <div className="inputWrap">
-                    <input
-                        className="input"
-                        name="user_pwd"
-                        placeholder="닉네임을 입력해주세요."/>
-                </div>
-                <div style={{marginTop: "26px"}} className="inputTitle">나이</div>
-                <div className="inputWrap">
-                    <input
-                        className="input"
-                        name="user_age"
-                        placeholder="나이를 입력해주세요."/>
-                </div>
-                <div style={{marginTop: "26px"}} className="inputTitle">성별</div>
-                <div className="inputWrap">
-                    <input
-                        className="input"
-                        name="user_name"
-                        placeholder="성별을 입력해주세요."/>
-                </div>
-                <div style={{marginTop: "26px"}} className="inputTitle">전화번호</div>
-                <div className="inputWrap">
-                    <input
-                        className="input"
-                        name="user_tel"
-                        value={user_tel}
-                        placeholder="전화번호를 입력해주세요."
-                        onChange={handleUserTel}/>
-                </div>
-                <div className="errorMessageWrap">
-                    {
-                        !userTelValid && user_tel.length > 0 && (
-                            <div>올바른 전화번호를 입력해주세요.</div>
-                        )
-                    }
-                </div>
-                <div style={{marginTop: "26px"}} className="inputTitle">주소</div>
-                <div className="inputWrap">
-                    <input
-                        className="input"
-                        name="user_address"
-                        placeholder="주소를 입력해주세요."/>
-                </div>
-                <div>
-                    <button disabled={notAllow} className="bottomButton">확인</button>
-                </div>
-            </div>
+            </form>
         </div>
-    )
+)
 }
