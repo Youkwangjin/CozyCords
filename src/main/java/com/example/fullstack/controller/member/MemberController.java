@@ -20,4 +20,3 @@ public class MemberController {
         return ResponseEntity.ok("회원 가입 성공!");
     }
 }
-
