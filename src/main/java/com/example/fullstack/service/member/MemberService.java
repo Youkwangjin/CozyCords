@@ -17,7 +17,7 @@ public class MemberService {
 
 
 
-    public void memberSave(MemberDTO memberDTO) {
+    public void memberSingUp(MemberDTO memberDTO) {
         // 비밀번호 인코딩
         String encodedPassword = passwordEncoder.encode(memberDTO.getUserPwd());
         memberDTO.setUserPwd(encodedPassword);
