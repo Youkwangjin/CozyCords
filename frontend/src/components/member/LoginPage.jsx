@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from "react";
 import './MemberPage.css';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../AuthContext';
 
 export default function LoginPage() {
-    const [user_id, setUserId] = useState('');
-    const [user_pwd, setUserPwd] =  useState('');
-    const [useridValid, setUserIdValid] = useState(false);
-    const [passwordValid, setPasswordValid] = useState(false);
+    const [userId, setUserId] = useState('');
+    const [userPwd, setUserPwd] =  useState('');
+    const [userIdValid, setUserIdValid] = useState(false);
+    const [userPwdValid, setUserPwdValid] = useState(false);
     const [notAllow, setNotAllow] = useState(true);
+
+    const navigate = useNavigate();
+    const { setIsLoggedIn } = useAuth();
 
     const handleUserId = (e) => {
         const newId = e.target.value;
@@ -25,33 +30,34 @@ export default function LoginPage() {
         setUserPwd(newPassword);
         const regex = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[$`~!@%*#^?&\\()\-_=+]).{8,16}$/;
         if(regex.test(newPassword)) {
-            setPasswordValid(true);
+            setUserPwdValid(true);
         } else {
-            setPasswordValid(false);
+            setUserPwdValid(false);
         }
     }
 
     useEffect(() => {
-        if(useridValid && passwordValid) {
+        if(userIdValid && userPwdValid) {
             setNotAllow(false);
             return;
         }
         setNotAllow(true);
-    }, [useridValid, passwordValid]);
+    }, [userIdValid, userPwdValid]);
 
     const handleLogin = async (event) => {
         event.preventDefault();
         if (!notAllow) {
             try {
                 const response = await axios.post('http://localhost:8080/api/login', {
-                    userId: user_id,
-                    password: user_pwd,
+                    userId: userId,
+                    userPwd: userPwd,
                 });
 
                 // 로그인 성공, Jwt를 로컬 스토리지에 저장
                 const { token } = response.data;
                 localStorage.setItem('userToken', token);
-                window.location.href = '/';
+                setIsLoggedIn(true);
+                navigate('/');
             } catch (error) {
                 console.error("로그인 실패", error);
             }
@@ -69,14 +75,14 @@ export default function LoginPage() {
                     <div className="inputWrap">
                         <input
                             className="input"
-                            name="user_id"
-                            value={user_id}
+                            name="userId"
+                            value={userId}
                             placeholder="abcd1234"
                             onChange={handleUserId}/>
                     </div>
                     <div className="errorMessageWrap">
                         {
-                            !useridValid && user_id.length > 0 && (
+                            !userIdValid && userId.length > 0 && (
                                 <div>올바른 아이디를 입력해주세요.</div>
                             )
                         }
@@ -85,14 +91,14 @@ export default function LoginPage() {
                     <div className="inputWrap">
                         <input
                             className="input"
-                            name="user_pwd"
-                            value={user_pwd}
+                            name="userPwd"
+                            value={userPwd}
                             placeholder="영문, 숫자, 특수문자 포함 8자 이상"
                             onChange={handleUserPwd}/>
                     </div>
                     <div className="errorMessageWrap">
                         {
-                            !passwordValid && user_pwd.length > 0 && (
+                            !userPwdValid && userPwd.length > 0 && (
                                 <div>올바른 비밀번호를 입력해주세요.</div>
                             )
                         }
