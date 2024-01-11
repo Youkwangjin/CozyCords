@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import './MemberPage.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../AuthContext';
 
 export default function LoginPage() {
     const [userId, setUserId] = useState('');
@@ -12,7 +11,6 @@ export default function LoginPage() {
     const [notAllow, setNotAllow] = useState(true);
 
     const navigate = useNavigate();
-    const { setIsLoggedIn } = useAuth();
 
     const handleUserId = (e) => {
         const newId = e.target.value;
@@ -53,16 +51,22 @@ export default function LoginPage() {
                     userPwd: userPwd,
                 });
 
-                // 로그인 성공, Jwt를 로컬 스토리지에 저장
-                const { token } = response.data;
-                localStorage.setItem('userToken', token);
-                setIsLoggedIn(true);
-                navigate('/');
+                // 응답 데이터에 accessToken 있는지 확인하고 로컬 스토리지에 저장
+                if (response.data && response.data.accessToken) {
+                    localStorage.setItem('userToken', response.data.accessToken); // accessToken 저장
+                    navigate('/');
+                } else {
+                    // accessToken 없는 경우 에러 메시지 출력
+                    console.error('accessToken 반환되지 않았습니다.', response.data);
+                }
             } catch (error) {
+                // 로그인 실패 또는 서버 에러 시 처리
                 console.error("로그인 실패", error);
             }
         }
     };
+
+
 
 
     return (
