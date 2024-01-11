@@ -5,6 +5,7 @@ import com.example.fullstack.dto.member.MemberDTO;
 import com.example.fullstack.entity.member.MemberEntity;
 import com.example.fullstack.repository.member.MemberRepository;
 import com.example.fullstack.security.JwtProvider;
+import com.example.fullstack.security.JwtToken;
 import com.example.fullstack.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -33,14 +34,13 @@ public class MemberController {
 
     @PostMapping("/api/login")
     public ResponseEntity<?> memberLogin(@RequestBody MemberDTO memberDTO) {
-        MemberEntity memberEntity = memberRepository.findByUserId(memberDTO.getUserId())
-                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
+        JwtToken jwtToken = memberService.memberLogin(memberDTO);
+        return ResponseEntity.ok(jwtToken);
+    }
 
-        if (!passwordEncoder.matches(memberDTO.getUserPwd(), memberEntity.getUserPwd())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("비밀번호가 일치하지 않습니다.");
-        }
-
-        String token = jwtProvider.createJwt(memberEntity.getUserId());
-        return ResponseEntity.ok(token);
+    @PostMapping("/api/token/refresh")
+    public ResponseEntity<?> refreshAccessToken(@RequestBody String refreshToken) {
+        JwtToken jwtToken = memberService.refreshAccessToken(refreshToken);
+        return ResponseEntity.ok(jwtToken);
     }
 }

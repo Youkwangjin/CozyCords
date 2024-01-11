@@ -31,7 +31,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             String token = parseBearerToken(request);
             if (token != null) {
-                String userId = jwtProvider.validate(token); // validate 메서드 수정 필요
+                String userId = jwtProvider.validate(token);
 
                 // 아이디를 사용하여 인증 토큰 생성
                 AbstractAuthenticationToken authenticationToken =

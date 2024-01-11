@@ -16,25 +16,25 @@ import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 
-@Component // 제어의 역전을 통한 의존성 주입을 위해 사용
+@Component
 public class JwtProvider {
-
-    /*
-        1. userId 을 받아와서 jwt 로 만들어준다.
-        2. 토큰 만료 기간 설정 (expiredDate)
-        3. jwt 생성
-    */
     private final Key key;
 
     public JwtProvider() {
-        // 안전한 키 생성
         key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     }
 
     public String createJwt(String userId) {
-        Date expiredDate = Date.from(Instant.now().plus(1, ChronoUnit.HOURS));
+        return createToken(userId, 1, ChronoUnit.HOURS); // Access Token, 1시간 유효
+    }
 
-        // 생성된 키를 사용하여 JWT 생성
+    public String createRefreshToken(String userId) {
+        return createToken(userId, 7, ChronoUnit.DAYS); // Refresh Token, 7일 유효
+    }
+
+    private String createToken(String userId, int amountToAdd, ChronoUnit chronoUnit) {
+        Date expiredDate = Date.from(Instant.now().plus(amountToAdd, chronoUnit));
+
         return Jwts.builder()
                 .signWith(key, SignatureAlgorithm.HS256)
                 .setSubject(userId)
@@ -46,7 +46,7 @@ public class JwtProvider {
     public String validate(String jwt) {
         try {
             Claims claims = Jwts.parserBuilder()
-                    .setSigningKey(key) // 생성된 키를 사용하여 검증
+                    .setSigningKey(key)
                     .build()
                     .parseClaimsJws(jwt)
                     .getBody();

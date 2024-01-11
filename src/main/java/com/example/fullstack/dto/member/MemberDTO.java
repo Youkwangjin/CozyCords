@@ -9,9 +9,9 @@ import lombok.*;
 @ToString
 public class MemberDTO {
     /*
-        1. React에서 작성한 name필드명과 Spring에서 작성한 DTO필드가 동일해야 한다.
-        2. 동일하다면 자동적으로 스프링이 DTO 객체를 생성해서 Setter 메서드를 각각 호출하면서 React에서 작성한 값을 알아서 담아준다.
-        3. private으로 필드를 설정한 이유는 Getter, Setter 메서드들은 이용해서 접근하고 사용가능 하도록 하기 위해 적었음.
+        1. React 에서 작성한 name 필드명과 Spring 에서 작성한 DTO 필드가 동일해야 한다.
+        2. 동일하다면 자동적으로 스프링이 DTO 객체를 생성해서 Setter 메서드를 각각 호출하면서 React 에서 작성한 값을 알아서 담아준다.
+        3. private 으로 필드를 설정한 이유는 Getter, Setter 메서드들은 이용해서 접근하고 사용가능 하도록 하기 위해 적었음.
      */
     private String userId;
     private String userPwd;

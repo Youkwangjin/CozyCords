@@ -69,7 +69,6 @@ public class MemberEntity {
                 .userGender(memberDTO.getUserGender())
                 .userTel(memberDTO.getUserTel())
                 .userAddress(memberDTO.getUserAddress())
-
                 .build();
     }
 }
