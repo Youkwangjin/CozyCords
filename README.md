@@ -22,21 +22,21 @@
 **성공적인 인증의 경우** : HTTP 200: 모든 인증 및 권한 부여 과정이 성공적으로 완료되면, 서버는 HTTP 200 상태 코드와 함께 요청된 JSON 데이터를 반환합니다.
 
 # ✍🏻  Spring Login API
-200
+**HTTP 200**
 - 성공 : "SU" / "Success."
 
-400
+**HTTP 400**
 - 유효성 검증 실패 : "VF" / "Validation failed."
 - 존재하지 않는 유저 : "NU" / "This user does not exist."
 
-401
+**HTTP 401**
 - 로그인 실패 : "SF" / "Login information mismatch."
 - 인증 실패 : "AF" / "Authorization Faild."
 
-403
+**HTTP 403**
 - 권한 없음 : "NP / "Do not have permission."
 
--500
+**HTTP 500**
 - 데이터베이스 에러 : "DBE" / "Database Error"
 
 
