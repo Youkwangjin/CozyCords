@@ -1,12 +1,16 @@
 package com.example.fullstack.dto.member;
 
+import com.example.fullstack.entity.member.MemberEntity;
 import lombok.*;
+
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
 @NoArgsConstructor // 기본 생성자를 자동으로 만들어준다.
 @AllArgsConstructor
 @ToString
+@Builder
 public class MemberDTO {
     /*
         1. React 에서 작성한 name 필드명과 Spring 에서 작성한 DTO 필드가 동일해야 한다.
@@ -17,10 +21,21 @@ public class MemberDTO {
     private String userPwd;
     private String userName;
     private String userNickname;
-    private String userAge;
+    private int userAge;
     private String userGender;
     private String userTel;
     private String userAddress;
-    private String userCreated;
-    private String userUpdated;
+
+    public static MemberDTO toMemberDTO(MemberEntity memberEntity) {
+        return MemberDTO.builder()
+                .userId(memberEntity.getUserId())
+                .userPwd(memberEntity.getUserPwd())
+                .userName(memberEntity.getUserName())
+                .userNickname(memberEntity.getUserNickname())
+                .userAge(memberEntity.getUserAge())
+                .userGender(memberEntity.getUserGender())
+                .userTel(memberEntity.getUserTel())
+                .userAddress(memberEntity.getUserAddress())
+                .build();
+    }
 }

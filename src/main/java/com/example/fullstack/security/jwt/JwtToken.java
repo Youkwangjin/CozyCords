@@ -1,4 +1,4 @@
-package com.example.fullstack.security;
+package com.example.fullstack.security.jwt;
 
 
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.example.fullstack.security;
+package com.example.fullstack.security.exception;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
