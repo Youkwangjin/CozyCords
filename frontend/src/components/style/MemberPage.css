@@ -84,6 +84,11 @@
         color: white;
     }
 
+    .errorMessageWrap div {
+        color: #ef0000;
+
+    }
+
 
 
 
