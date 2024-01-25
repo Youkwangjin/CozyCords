@@ -125,6 +125,7 @@ export default function LoginPage() {
                         <input
                             className="input"
                             name="userPwd"
+                            type="password"
                             value={userPwd}
                             placeholder="영문, 숫자, 특수문자 포함 8자 이상"
                             onChange={handleUserPwd}/>
