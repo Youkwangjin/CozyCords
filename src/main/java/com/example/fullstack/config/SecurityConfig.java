@@ -26,6 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
     @Bean
     protected SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
@@ -37,14 +38,16 @@ public class SecurityConfig {
                 .sessionManagement(sessionManagement -> sessionManagement
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-                .authorizeHttpRequests(request -> request
+                .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/api/register", "/api/login").permitAll()
-                        .requestMatchers("/api/userInfo", "/api/userUpdate", "/api/userDelete").authenticated()
+                        .requestMatchers("/api/userInfo", "/api/userUpdate", "/api/userDelete").hasRole("USER")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
         return httpSecurity.build();
     }
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();

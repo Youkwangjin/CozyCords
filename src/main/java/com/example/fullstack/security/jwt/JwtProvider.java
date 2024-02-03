@@ -34,20 +34,23 @@ public class JwtProvider {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public JwtToken generateToken(String userId) {
+    public JwtToken accessToken(String userId) { // 사용자의 ID를 받아 토큰 생성
+        // 토큰의 만료 시간을 계산하는 데 사용하기 위해 현재 시간 설정
         long now = (new Date()).getTime();
 
-        String authorities = "USER";
+        // 사용자에게 부여할 권한을 설정
+        String authorities = "ROLE_USER";
 
-        Date accessTokenExpiresIn = new Date(now + 3600000); // 1 hour
+        Date accessTokenExpiresIn = new Date(now + 3600000); // Access 토큰의 만료 시간을 설정 (1시간)
         String accessToken = Jwts.builder()
-                .setSubject(userId)
+                .setHeaderParam("typ", "JWT")
+                .setSubject(userId) // 사용자 ID 사용하여 클레임을 설정
                 .claim("auth", authorities)
                 .setExpiration(accessTokenExpiresIn)
-                .signWith(key, SignatureAlgorithm.HS256)
+                .signWith(key, SignatureAlgorithm.HS256) // Refresh 토큰에 서명하는 데 사용할 키와 알고리즘을 설정
                 .compact();
 
-        Date refreshTokenExpiresIn = new Date(now + 604800000); // 7 days
+        Date refreshTokenExpiresIn = new Date(now + 604800000); // Refresh 토큰의 만료 시간을 설정 (7일)
         String refreshToken = Jwts.builder()
                 .setExpiration(refreshTokenExpiresIn)
                 .signWith(key, SignatureAlgorithm.HS256)
@@ -60,6 +63,7 @@ public class JwtProvider {
                 .build();
     }
 
+    //  JWT 토큰에서 인증 정보를 추출하여 Authentication 객체를 생성
     public Authentication getAuthentication(String accessToken) {
         Claims claims = parseClaims(accessToken);
 
