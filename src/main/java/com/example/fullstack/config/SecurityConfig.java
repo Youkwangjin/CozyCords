@@ -39,7 +39,7 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/api/register", "/api/login").permitAll()
+                        .requestMatchers("/", "/api/register", "/api/login", "/api/check-userId").permitAll()
                         .requestMatchers("/api/userInfo", "/api/userUpdate", "/api/userDelete").hasRole("USER")
                         .anyRequest().authenticated()
                 )

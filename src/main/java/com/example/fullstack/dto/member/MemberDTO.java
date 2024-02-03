@@ -3,8 +3,6 @@ package com.example.fullstack.dto.member;
 import com.example.fullstack.entity.member.MemberEntity;
 import lombok.*;
 
-import java.time.format.DateTimeFormatter;
-
 @Getter
 @Setter
 @NoArgsConstructor // 기본 생성자를 자동으로 만들어준다.
