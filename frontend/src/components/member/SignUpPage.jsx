@@ -15,6 +15,7 @@ export default function LoginPage() {
     const [userIdValid, setUserIdValid] = useState(false);
     const [userPwdValid, setUserPwdValid] = useState(false);
     const [userNameValid, setUserNameValid] = useState(false);
+    const [userGenderValid, setUserGenderValid] = useState(false);
     const [userTelValid, setUserTelValid] = useState(false);
 
     const [notAllow, setNotAllow] = useState(true);
@@ -52,12 +53,21 @@ export default function LoginPage() {
             setUserNameValid(false);
         }
     }
+    const handleUserGender = (e) => {
+        const newGender = e.target.value;
+        setUserGender(newGender);
+        if (newGender === '남자' || newGender === '여자') {
+            setUserGenderValid(true);
+        } else {
+            setUserGenderValid(false);
+        }
+    }
 
     const handleUserTel = (e) => {
-        const newTel = e.target.value;
+        const newTel = e.target.value.replace(/-/g, '');
         setUserTel(newTel);
-        const regex = /^01[0-9]-[0-9]{3,4}-[0-9]{4}$/;
-        if(regex.test(newTel)) {
+        const regex = /^01[01789][1-9]\d{6,7}$/;
+        if (regex.test(newTel)) {
             setUserTelValid(true);
         } else {
             setUserTelValid(false);
@@ -66,16 +76,15 @@ export default function LoginPage() {
 
     const handleUserNickname = (e) => setUserNickname(e.target.value);
     const handleUserAge = (e) => setUserAge(e.target.value);
-    const handleUserGender = (e) => setUserGender(e.target.value);
     const handleUserAddress = (e) => setUserAddress(e.target.value);
 
     useEffect(() => {
-        if(userIdValid && userPwdValid && userNameValid && userTelValid) {
+        if(userIdValid && userPwdValid && userNameValid && userGenderValid && userTelValid) {
             setNotAllow(false);
             return;
         }
         setNotAllow(true);
-    }, [userIdValid, userPwdValid, userNameValid, userTelValid]);
+    }, [userIdValid, userPwdValid, userNameValid, userGenderValid, userTelValid]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -180,6 +189,13 @@ export default function LoginPage() {
                             placeholder="성별을 입력해주세요."
                             onChange={handleUserGender}/>
                     </div>
+                    <div className="errorMessageWrap">
+                        {
+                            !userGenderValid && userGender.length > 0 && (
+                                <div>성별은 남자 혹은 여자로 입력해주세요.</div>
+                            )
+                        }
+                    </div>
                     <div style={{marginTop: "26px"}} className="inputTitle">전화번호</div>
                     <div className="inputWrap">
                         <input
@@ -212,5 +228,5 @@ export default function LoginPage() {
                 </div>
             </form>
         </div>
-)
+    )
 }

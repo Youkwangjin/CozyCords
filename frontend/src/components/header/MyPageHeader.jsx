@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../AuthContext';
+import {Link, useNavigate} from 'react-router-dom';
+import {useAuth} from '../../AuthContext';
 import '../style/Header.css';
 
 function MyPageHeader() {
     const navigate = useNavigate();
-    const { setIsLoggedIn } = useAuth();
+    const {setIsLoggedIn} = useAuth();
     const [showDropdown, setShowDropdown] = useState(false);
 
     const handleLogout = () => {
