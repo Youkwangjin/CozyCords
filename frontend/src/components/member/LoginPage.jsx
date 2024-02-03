@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import '../style/MemberPage.css';
+import '../../style/MemberPage.css';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import {useAuth} from '../../AuthContext';

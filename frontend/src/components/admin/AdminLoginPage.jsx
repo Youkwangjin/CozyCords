@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import '../style/MemberPage.css';
+import '../../style/MemberPage.css';
 
 export default function AdminLoginPage() {
     const [adminId, setAdminId] = useState('');

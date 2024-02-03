@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider, useAuth } from './AuthContext';
+import IndexPage from './components/home/IndexPage';
 import Header from './components/header/Header';
 import MyPageHeader from './components/header/MyPageHeader';
 import LoginPage from './components/member/LoginPage';
@@ -15,6 +16,8 @@ function App() {
             <BrowserRouter>
                 <div className="App">
                     <Routes>
+                        {/* 메인 홈페이지 라우트 */}
+                        <Route path="/" element={<WithHeader><IndexPage /></WithHeader>} />
                         {/* 관리자 페이지 라우트 */}
                         <Route path="/admin/login" element={<AdminLoginPage />} />
                         {/* 사용자 라우트 */}

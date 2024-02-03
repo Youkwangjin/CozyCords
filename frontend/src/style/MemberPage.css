@@ -89,6 +89,15 @@
 
 }
 
+.message.valid {
+    color: blue;
+}
+
+.message.error {
+    color: red;
+}
+
+
 
 
 

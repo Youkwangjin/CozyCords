@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {useAuth} from '../../AuthContext';
-import '../style/Header.css';
+import '../../style/Header.css';
 
 function MyPageHeader() {
     const navigate = useNavigate();
@@ -21,10 +21,12 @@ function MyPageHeader() {
     return (
         <header className="header">
             <div className="logo">
-                <img src="/logo.jpg" alt="Logo"/>
+                <Link to="/">
+                    <img src="/logo.jpg" alt="Logo"/>
+                </Link>
             </div>
             <nav className="navigation">
-                <Link to="/community">Home</Link>
+                <Link to="/">Home</Link>
                 <Link to="/community">공지사항</Link>
                 <Link to="/community">커뮤니티</Link>
                 <div className="dropdown">
