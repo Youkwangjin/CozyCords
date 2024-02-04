@@ -1,13 +1,9 @@
 package com.example.fullstack.security.jwt;
 
-
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-
-
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,34 +19,32 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
 
-
 @Slf4j
 @Component
-public class JwtProvider {
+public class JwtTokenProvider {
     private final Key key;
 
-    public JwtProvider(@Value("${jwt.secret}") String secretKey) {
+    public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public JwtToken accessToken(String userId) { // 사용자의 ID를 받아 토큰 생성
-        // 토큰의 만료 시간을 계산하는 데 사용하기 위해 현재 시간 설정
+    public JwtToken createToken(String username, Collection<? extends GrantedAuthority> authorities) {
         long now = (new Date()).getTime();
+        String authoritiesString = authorities.stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
 
-        // 사용자에게 부여할 권한을 설정
-        String authorities = "ROLE_USER";
-
-        Date accessTokenExpiresIn = new Date(now + 3600000); // Access 토큰의 만료 시간을 설정 (1시간)
+        Date accessTokenExpiresIn = new Date(now + 3600000);
         String accessToken = Jwts.builder()
                 .setHeaderParam("typ", "JWT")
-                .setSubject(userId) // 사용자 ID 사용하여 클레임을 설정
-                .claim("auth", authorities)
+                .setSubject(username)
+                .claim("auth", authoritiesString)
                 .setExpiration(accessTokenExpiresIn)
-                .signWith(key, SignatureAlgorithm.HS256) // Refresh 토큰에 서명하는 데 사용할 키와 알고리즘을 설정
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
-        Date refreshTokenExpiresIn = new Date(now + 604800000); // Refresh 토큰의 만료 시간을 설정 (7일)
+        Date refreshTokenExpiresIn = new Date(now + 604800000);
         String refreshToken = Jwts.builder()
                 .setExpiration(refreshTokenExpiresIn)
                 .signWith(key, SignatureAlgorithm.HS256)
@@ -63,10 +57,8 @@ public class JwtProvider {
                 .build();
     }
 
-    //  JWT 토큰에서 인증 정보를 추출하여 Authentication 객체를 생성
     public Authentication getAuthentication(String accessToken) {
         Claims claims = parseClaims(accessToken);
-
         if (claims.get("auth") == null) {
             throw new RuntimeException("권한 정보가 없는 토큰입니다.");
         }

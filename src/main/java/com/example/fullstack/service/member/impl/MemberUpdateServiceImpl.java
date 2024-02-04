@@ -4,27 +4,31 @@ import com.example.fullstack.dto.member.MemberDTO;
 import com.example.fullstack.entity.member.MemberEntity;
 import com.example.fullstack.repository.member.MemberRepository;
 import com.example.fullstack.security.exception.CustomException;
-import com.example.fullstack.security.jwt.JwtProvider;
+import com.example.fullstack.security.jwt.JwtTokenProvider;
 import com.example.fullstack.security.jwt.JwtToken;
 import com.example.fullstack.service.member.MemberUpdateService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.Collection;
 
 @Service
 @AllArgsConstructor
 public class MemberUpdateServiceImpl implements MemberUpdateService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtProvider jwtProvider;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Override
     public MemberDTO getUserInfo(String userId) {
         MemberEntity memberEntity = memberRepository.findByUserId(userId)
                 .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
-
         return MemberDTO.toMemberDTO(memberEntity);
     }
 
@@ -39,7 +43,6 @@ public class MemberUpdateServiceImpl implements MemberUpdateService {
         }
 
         // 나머지 정보를 업데이트
-        memberEntity.setUserId(memberDTO.getUserId());
         memberEntity.setUserName(memberDTO.getUserName());
         memberEntity.setUserNickname(memberDTO.getUserNickname());
         memberEntity.setUserAge(memberDTO.getUserAge());
@@ -48,15 +51,22 @@ public class MemberUpdateServiceImpl implements MemberUpdateService {
 
         memberRepository.save(memberEntity);
 
-        return jwtProvider.accessToken(memberEntity.getUserId());
+        // 사용자 권한 설정 (기본값: "ROLE_USER")
+        Collection<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+
+        return jwtTokenProvider.createToken(memberEntity.getUserId(), authorities);
     }
 
     @Override
     public JwtToken refreshAccessToken(String refreshToken) {
-        if (!jwtProvider.validateToken(refreshToken)) {
+        if (!jwtTokenProvider.validateToken(refreshToken)) {
             throw new CustomException("리프레시 토큰이 유효하지 않습니다.", HttpStatus.UNAUTHORIZED);
         }
-        String userId = jwtProvider.getUserIdFromToken(refreshToken);
-        return jwtProvider.accessToken(userId);
+        String userId = jwtTokenProvider.getUserIdFromToken(refreshToken);
+
+        // 사용자 권한 설정 (기본값: "ROLE_USER")
+        Collection<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+
+        return jwtTokenProvider.createToken(userId, authorities);
     }
 }
