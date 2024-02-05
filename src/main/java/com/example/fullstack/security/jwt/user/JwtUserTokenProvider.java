@@ -1,4 +1,4 @@
-package com.example.fullstack.security.jwt;
+package com.example.fullstack.security.jwt.user;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -21,16 +21,17 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
-public class JwtTokenProvider {
+public class JwtUserTokenProvider {
     private final Key key;
 
-    public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
+    public JwtUserTokenProvider(@Value("${jwt.secret}") String secretKey) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public JwtToken createToken(String username, Collection<? extends GrantedAuthority> authorities) {
+    public JwtUserToken createToken(String username, Collection<? extends GrantedAuthority> authorities) {
         long now = (new Date()).getTime();
+        // 사용자의 권한 정보 설정 ("ROLE_USER")
         String authoritiesString = authorities.stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
@@ -50,13 +51,14 @@ public class JwtTokenProvider {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
-        return JwtToken.builder()
+        return JwtUserToken.builder()
                 .grantType("Bearer")
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
     }
 
+    // 토큰에서 사용자 정보를 추출하여 Authentication 객체를 생성
     public Authentication getAuthentication(String accessToken) {
         Claims claims = parseClaims(accessToken);
         if (claims.get("auth") == null) {
@@ -71,7 +73,7 @@ public class JwtTokenProvider {
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
 
-    public boolean validateToken(String token) {
+    public boolean validateToken(String token) { // JWT 토큰이 유효한지 검증
         try {
             Jwts.parserBuilder()
                     .setSigningKey(key)

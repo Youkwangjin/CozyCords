@@ -1,5 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import '../../style/MemberPage.css';
+import axios from "axios";
+import {useNavigate} from "react-router-dom";
+import {useAuth} from "../../AuthContext";
 
 export default function AdminLoginPage() {
     const [adminId, setAdminId] = useState('');
@@ -10,7 +13,8 @@ export default function AdminLoginPage() {
     const [adminIdError, setAdminIdError] = useState('');
     const [adminPwdError, setAdminPwdError] = useState('');
 
-
+    const navigate = useNavigate();
+    const {setIsLoggedIn} = useAuth();
 
 
     const handleAdminId = (e) => {
@@ -35,8 +39,30 @@ export default function AdminLoginPage() {
         event.preventDefault();
         setAdminIdError('');
         setAdminPwdError('');
-    };
 
+        if (!notAllow) {
+            try {
+                const response = await axios.post('http://localhost:8080/api/admin/login', {
+                    adminId,
+                    adminPwd,
+                });
+                if (response.data && response.data.accessToken) {
+                    localStorage.setItem('adminToken', response.data.accessToken);
+                    setIsLoggedIn(true);
+                    navigate('/');
+                }
+            } catch (error) {
+                if (error.response) {
+                    // 서버로부터 받은 오류 메시지를 표시
+                    const errorMessage = error.response.data.message || "관리자 아이디와 비밀번호를 올바르게 입력하세요.";
+                    setAdminIdError(errorMessage);
+                    setAdminPwdError(errorMessage);
+                } else {
+                    console.error("서버로부터 응답을 받을 수 없습니다.", error);
+                }
+            }
+        }
+    };
 
     return (
         <div className="page">

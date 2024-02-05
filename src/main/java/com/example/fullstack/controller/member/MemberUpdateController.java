@@ -2,7 +2,7 @@ package com.example.fullstack.controller.member;
 
 
 import com.example.fullstack.dto.member.MemberDTO;
-import com.example.fullstack.security.jwt.JwtToken;
+import com.example.fullstack.security.jwt.user.JwtUserToken;
 import com.example.fullstack.service.member.MemberUpdateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -32,7 +32,7 @@ public class MemberUpdateController {
         if (userId == null || !userId.equals(memberDTO.getUserId())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("자신의 정보만 수정 가능합니다.");
         }
-        JwtToken newTokens = memberUpdateService.updateUser(memberDTO);
+        JwtUserToken newTokens = memberUpdateService.updateUser(memberDTO);
         return ResponseEntity.ok(newTokens); // 클라이언트에게 새로운 토큰 전달
     }
 

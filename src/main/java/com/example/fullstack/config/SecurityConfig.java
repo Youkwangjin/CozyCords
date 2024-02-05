@@ -1,6 +1,6 @@
 package com.example.fullstack.config;
 
-import com.example.fullstack.security.jwt.JwtAuthenticationFilter;
+import com.example.fullstack.security.jwt.user.JwtUserAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,10 +28,10 @@ import java.util.List;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    private final JwtUserAuthenticationFilter jwtUserAuthenticationFilter;
     private final UserDetailsService userDetailsService;
 
-    // AuthenticationManager 빈을 생성
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity httpSecurity, PasswordEncoder passwordEncoder) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder = httpSecurity.getSharedObject(AuthenticationManagerBuilder.class);
@@ -47,17 +47,23 @@ public class SecurityConfig {
                 .cors(cors -> cors
                         .configurationSource(corsConfigurationSource())
                 )
+                // JWT 방식은 세션과 달리 Stateless 로 관리하기 때문에 csrf 공격에 대한 방어는 필요없기 때문에 disable 설정
                 .csrf(CsrfConfigurer::disable)
                 .httpBasic(HttpBasicConfigurer::disable)
+                // JWT 사용하기 때문에 세션 방식은 사용하지 않는다.
                 .sessionManagement(sessionManagement -> sessionManagement
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
+                // 경로별 인가 작업
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/api/register", "/api/login", "/api/check-userId").permitAll()
+                        // 모든 권한 허용 (permitAll)
+                        .requestMatchers("/", "/api/register", "/api/login", "/api/check-userId",
+                                "/api/admin/login").permitAll()
+                        // USER 권한이 있어야 접근 가능
                         .requestMatchers("/api/userInfo", "/api/userUpdate", "/api/userDelete").hasRole("USER")
                         .anyRequest().authenticated()
                 )
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtUserAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return httpSecurity.build();
     }
@@ -76,7 +82,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder() { // 비밀번호 인코딩 작업
         return new BCryptPasswordEncoder();
     }
 }
