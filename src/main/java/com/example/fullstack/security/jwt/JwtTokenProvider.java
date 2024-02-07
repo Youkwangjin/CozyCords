@@ -1,4 +1,4 @@
-package com.example.fullstack.security.jwt.user;
+package com.example.fullstack.security.jwt;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -21,15 +21,15 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
-public class JwtUserTokenProvider {
+public class JwtTokenProvider {
     private final Key key;
 
-    public JwtUserTokenProvider(@Value("${jwt.secret}") String secretKey) {
+    public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public JwtUserToken createToken(String username, Collection<? extends GrantedAuthority> authorities) {
+    public JwtToken createToken(String username, Collection<? extends GrantedAuthority> authorities) {
         long now = (new Date()).getTime();
         // 사용자의 권한 정보 설정 ("ROLE_USER")
         String authoritiesString = authorities.stream()
@@ -51,7 +51,7 @@ public class JwtUserTokenProvider {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
-        return JwtUserToken.builder()
+        return JwtToken.builder()
                 .grantType("Bearer")
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)

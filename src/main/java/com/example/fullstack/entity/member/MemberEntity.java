@@ -2,6 +2,7 @@ package com.example.fullstack.entity.member;
 
 
 import com.example.fullstack.dto.member.MemberDTO;
+import com.example.fullstack.role.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -50,6 +51,10 @@ public class MemberEntity {
 
     @Column(name = "user_addr")
     private String userAddress;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "user_role")
+    private UserRole userRole;
 
     @CreationTimestamp
     @Column(name = "user_created", updatable = false)

@@ -2,7 +2,7 @@ package com.example.fullstack.controller.member;
 
 import com.example.fullstack.dto.member.MemberDTO;
 import com.example.fullstack.security.exception.CustomException;
-import com.example.fullstack.security.jwt.user.JwtUserToken;
+import com.example.fullstack.security.jwt.JwtToken;
 import com.example.fullstack.service.member.MemberService;
 import com.example.fullstack.service.member.MemberUpdateService;
 import lombok.RequiredArgsConstructor;
@@ -30,8 +30,8 @@ public class MemberController {
     @PostMapping("/api/login")
     public ResponseEntity<?> memberLogin(@RequestBody MemberDTO memberDTO) {
         try {
-            JwtUserToken jwtUserToken = memberService.memberLogin(memberDTO);
-            return ResponseEntity.ok(jwtUserToken);
+            JwtToken jwtToken = memberService.memberLogin(memberDTO);
+            return ResponseEntity.ok(jwtToken);
         } catch (UsernameNotFoundException | CustomException e) {
             return ResponseEntity
                     .status(HttpStatus.FORBIDDEN)
@@ -41,7 +41,7 @@ public class MemberController {
 
     @PostMapping("/api/token/refresh")
     public ResponseEntity<?> refreshAccessToken(@RequestBody String refreshToken) {
-        JwtUserToken jwtUserToken = memberUpdateService.refreshAccessToken(refreshToken);
-        return ResponseEntity.ok(jwtUserToken);
+        JwtToken jwtToken = memberUpdateService.refreshAccessToken(refreshToken);
+        return ResponseEntity.ok(jwtToken);
     }
 }
