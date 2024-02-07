@@ -59,9 +59,9 @@ public class SecurityConfig {
                         // 모든 권한 허용 (permitAll)
                         .requestMatchers("/", "/api/register", "/api/login", "/api/check-userId").permitAll()
                         // USER 권한이 있어야 접근 가능
-                        .requestMatchers("/api/userInfo", "/api/userUpdate", "/api/userDelete").hasRole("USER")
+                        .requestMatchers("/api/userInfo", "/api/userUpdate", "/api/userDelete").hasAnyRole("USER", "ADMIN")
                         // ADMIN 권한이 있어야 접근 가능
-                        .requestMatchers("/api/admin/login").hasRole("ADMIN")
+                        .requestMatchers("/api/admin/userUpdate", "/api/admin/userDelete").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
