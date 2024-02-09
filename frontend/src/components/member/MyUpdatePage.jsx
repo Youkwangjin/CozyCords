@@ -98,7 +98,9 @@ export default function MyUpdatePage() {
                 console.error("사용자 정보 불러오기 오류", error);
             }
         };
-        fetchUserData();
+        fetchUserData().catch(error => {
+            console.error("사용자 정보 불러오기 중 오류 발생", error);
+        });
     }, []);
 
 
