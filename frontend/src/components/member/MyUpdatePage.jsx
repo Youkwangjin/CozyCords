@@ -114,7 +114,7 @@ export default function MyUpdatePage() {
                         'Authorization': `Bearer ${token}`
                     }
                 };
-                await axios.post('http://localhost:8080/api/userUpdate', {
+                await axios.patch('http://localhost:8080/api/user/update', {
                     userId,
                     userPwd,
                     userName,

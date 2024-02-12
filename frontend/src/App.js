@@ -10,6 +10,7 @@ import MyUpdatePage from './components/member/MyUpdatePage';
 import MyDeletePage from './components/member/MyDeletePage';
 import AdminPage from "./components/admin/AdminPage";
 import AdminHeader from "./components/admin/AdminHeader";
+import AdminUserInfoList from "./components/admin/AdminUserInfoList";
 
 function App() {
     return (
@@ -25,7 +26,8 @@ function App() {
                         <Route path="/profile/update" element={<WithHeader><MyUpdatePage/></WithHeader>}/>
                         <Route path="/profile/delete" element={<WithHeader><MyDeletePage/></WithHeader>}/>
                         {/* 관리자 라우트 */}
-                        <Route path="/admin/page" element={<AdminPage />} />
+                        <Route path="/admin/page" element={<AdminPage/>}/>
+                        <Route path="/admin/user/list" element={<AdminUserInfoList/>}/>
                     </Routes>
                 </div>
             </BrowserRouter>

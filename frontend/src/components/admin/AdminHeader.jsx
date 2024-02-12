@@ -27,14 +27,13 @@ function AdminHeader() {
             </div>
             <nav className="navigation">
                 <Link to="/">Home</Link>
-                <Link to="/user/community">공지사항 관리</Link>
-                <Link to="/user/community">커뮤니티 관리</Link>
+                <Link to="/admin/community">공지사항 관리</Link>
+                <Link to="/admin/community">커뮤니티 관리</Link>
                 <div className="dropdown">
                     <button onClick={toggleDropdown} className="dropbtn">회원 관리</button>
                     {showDropdown && (
                         <div className="dropdown-content">
-                            <Link to="/profile/user/update" className="dropdown-item">회원수정</Link>
-                            <Link to="/profile/user/delete" className="dropdown-item">회원탈퇴</Link>
+                            <Link to="/admin/user/list" className="dropdown-item">회원목록</Link>
                         </div>
                     )}
                 </div>

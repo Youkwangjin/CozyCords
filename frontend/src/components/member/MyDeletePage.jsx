@@ -111,7 +111,7 @@ export default function MyUpdatePage() {
                         'Authorization': `Bearer ${token}`
                     }
                 };
-                await axios.post('http://localhost:8080/api/userDelete', {
+                await axios.post('http://localhost:8080/api/user/delete', {
                     userId,
                     userPwd,
                     userName,

@@ -50,7 +50,7 @@ export default function LoginPage() {
                     if (decodedToken.auth.includes('ROLE_ADMIN')) {
                         navigate('/admin/page'); // 관리자 페이지로 리다이렉션
                     } else {
-                        navigate('/'); // 일반 사용자 페이지 혹은 홈으로 리다이렉션
+                        navigate('/'); // 일반 사용자 페이지 리다이렉션
                     }
                 }
             } catch (error) {
