@@ -28,28 +28,28 @@ public class MemberEntity {
     @Column(name = "user_no")
     private int userNo;
 
-    @Column(name = "user_id")
+    @Column(name = "user_id", unique = true, nullable = false)
     private String userId;
 
-    @Column(name = "user_pwd")
+    @Column(name = "user_pwd", nullable = false)
     private String userPwd;
 
-    @Column(name = "user_name")
+    @Column(name = "user_name", nullable = false)
     private String userName;
 
-    @Column(name = "user_nickname")
+    @Column(name = "user_nickname", nullable = false)
     private String userNickname;
 
-    @Column(name = "user_age")
+    @Column(name = "user_age", nullable = false)
     private int userAge;
 
-    @Column(name = "user_gender")
+    @Column(name = "user_gender", nullable = false)
     private String userGender;
 
-    @Column(name = "user_tel")
+    @Column(name = "user_tel", nullable = false)
     private String userTel;
 
-    @Column(name = "user_addr")
+    @Column(name = "user_addr", nullable = false)
     private String userAddress;
 
     @Enumerated(EnumType.STRING)

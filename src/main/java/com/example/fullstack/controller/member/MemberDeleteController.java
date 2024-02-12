@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000", methods = {RequestMethod.GET, RequestMethod.POST}, allowCredentials = "true")
+@CrossOrigin(origins = "http://localhost:3000", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE}, allowCredentials = "true")
 public class MemberDeleteController {
 
     private final MemberDeleteService memberDeleteService;
 
-    @PostMapping("/api/userDelete")
+    @PostMapping("/api/user/delete")
     public ResponseEntity<?> deleteUser(@RequestBody MemberDTO memberDTO, @AuthenticationPrincipal String userId) {
         if (!userId.equals(memberDTO.getUserId())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("자신의 정보만 삭제 가능합니다.");
