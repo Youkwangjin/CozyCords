@@ -29,7 +29,7 @@ public class JwtTokenProvider {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public JwtToken createToken(String username, Collection<? extends GrantedAuthority> authorities) {
+    public JwtToken createToken(String username, Long userNo, Collection<? extends GrantedAuthority> authorities) {
         long now = (new Date()).getTime();
         // 사용자의 권한 정보 설정 ("ROLE_USER")
         String authoritiesString = authorities.stream()
@@ -41,6 +41,7 @@ public class JwtTokenProvider {
                 .setHeaderParam("typ", "JWT")
                 .setSubject(username)
                 .claim("auth", authoritiesString)
+                .claim("userNo", userNo)
                 .setExpiration(accessTokenExpiresIn)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();

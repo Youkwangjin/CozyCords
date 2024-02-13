@@ -11,6 +11,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -36,11 +38,14 @@ public class MemberServiceImpl implements MemberService {
     public JwtToken memberLogin(MemberDTO memberDTO) {
         // 사용자 인증
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(memberDTO.getUserId(), memberDTO.getUserPwd())
-        );
+                new UsernamePasswordAuthenticationToken(memberDTO.getUserId(), memberDTO.getUserPwd()));
 
-        // 인증된 사용자의 ID를 기반으로 JWT 토큰 생성
-        return jwtTokenProvider.createToken(authentication.getName(), authentication.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        MemberEntity memberEntity = memberRepository.findByUserId(authentication.getName())
+                .orElseThrow(() -> new UsernameNotFoundException("사용자 정보를 찾을 수 없습니다."));
+
+        // 인증된 사용자의 ID와 userNo를 기반으로 JWT 토큰 생성
+        return jwtTokenProvider.createToken(authentication.getName(), memberEntity.getUserNo(), authentication.getAuthorities());
     }
 }
 
