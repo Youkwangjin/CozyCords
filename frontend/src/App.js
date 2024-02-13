@@ -23,8 +23,8 @@ function App() {
                         {/* 사용자 라우트 */}
                         <Route path="/login" element={<WithHeader><LoginPage/></WithHeader>}/>
                         <Route path="/signup" element={<WithHeader><SignUpPage/></WithHeader>}/>
-                        <Route path="/profile/update" element={<WithHeader><MyUpdatePage/></WithHeader>}/>
-                        <Route path="/profile/delete" element={<WithHeader><MyDeletePage/></WithHeader>}/>
+                        <Route path="/profile/update/:userNo" element={<WithHeader><MyUpdatePage/></WithHeader>} />
+                        <Route path="/profile/delete/:userNo" element={<WithHeader><MyDeletePage/></WithHeader>}/>
                         {/* 관리자 라우트 */}
                         <Route path="/admin/page" element={<AdminPage/>}/>
                         <Route path="/admin/user/list" element={<AdminUserInfoList/>}/>

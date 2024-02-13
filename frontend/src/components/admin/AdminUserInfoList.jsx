@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import '../../style/MemberList.css';
+import { useNavigate } from 'react-router-dom';
+
 
 function AdminUserInfoList() {
     const [members, setMembers] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchAndSetMembers = async () => {
@@ -24,6 +27,14 @@ function AdminUserInfoList() {
             console.error("회원 정보 불러오기 중 오류 발생", error);
         });
     }, []);
+
+    const handleAdminUpdateClick = (userNo) => {
+        navigate(`/profile/update/${userNo}`);
+    };
+
+    const handleAdminDeleteClick = (userNo) => {
+        navigate(`/profile/delete/${userNo}`);
+    };
 
     return (
         <div className="board-container">
@@ -57,10 +68,14 @@ function AdminUserInfoList() {
                         <td>{member.userTel}</td>
                         <td>{member.userAddress}</td>
                         <td>
-                            <button className="update-button" onClick={() => alert('수정 기능은 구현되지 않았습니다.')}>수정</button>
+                            <button className="update-button"
+                                    onClick={() => handleAdminUpdateClick(member["userNo"])}>수정
+                            </button>
                         </td>
                         <td>
-                            <button className="delete-button" onClick={() => alert('삭제 기능은 구현되지 않았습니다.')}>삭제</button>
+                            <button className="delete-button"
+                                    onClick={() => handleAdminDeleteClick(member["userNo"])}>삭제
+                            </button>
                         </td>
                     </tr>
                 ))}
