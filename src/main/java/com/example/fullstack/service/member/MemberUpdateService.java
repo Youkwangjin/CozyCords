@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface MemberUpdateService {
-    MemberDTO getUserInfo(String userId);
+    MemberDTO getUserInfoByNo(Long userNo);
     JwtToken updateUser(MemberDTO memberDTO);
     JwtToken refreshAccessToken(String refreshToken);
 }

@@ -58,11 +58,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // 모든 권한 허용 (permitAll)
                         .requestMatchers("/", "/api/register", "/api/login", "/api/check-userId").permitAll()
-                        // USER 권한이 있어야 접근 가능
-                        .requestMatchers("/api/userInfo", "/api/user/update", "/api/user/delete").hasAnyRole("USER", "ADMIN")
+                        // USER, ADMIN 권한이 있어야 접근 가능
+                        .requestMatchers("/api/user/info/{userNo}", "/api/user/update", "/api/user/delete").hasAnyRole("USER", "ADMIN")
                         // ADMIN 권한이 있어야 접근 가능
-                        .requestMatchers("/api/admin/user/update", "/api/admin/user/delete",
-                                         "/api/user/list").hasRole("ADMIN")
+                        .requestMatchers("/api/user/list").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
