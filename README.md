@@ -1,4 +1,4 @@
-# 📋 Spring Security + JWT System Principle
+# 📋 Spring Security + JWT 동작 과정
 ![image](https://github.com/Youkwangjin/FullStack/assets/117841714/830c3780-ed43-40f4-808f-1e87e4616623)
 
 **HTTP Request** : 사용자가 서버에 JWT를 포함해서 요청을 보냅니다.
