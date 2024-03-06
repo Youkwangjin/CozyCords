@@ -64,10 +64,6 @@
 | lombok                           | 코드 간소화를 위해 Getter, Setter, Builder 등 자동 생성        |
 | mariadb-java-client              | MariaDB 데이터베이스 연결을 위한 JDBC 드라이버                 |
 | spring-boot-starter-test         | 스프링 부트 기반 테스트를 위한 스타터 키트                     |
-| swagger-ui                       | REST API 문서화를 위한 Swagger UI 라이브러리                  |
-| springfox-swagger2               | Spring Boot 프로젝트에서 Swagger 2를 구현하기 위한 라이브러리  |
-| AWS SDK for Java                 | AWS 서비스를 Java 애플리케이션에서 사용하기 위한 SDK            |
-| spring-cloud-aws                 | AWS 서비스를 쉽게 통합할 수 있도록 지원하는 라이브러리          |
 
 
 ## ✨ 프로젝트 주요 기능 및 구현 세부사항
