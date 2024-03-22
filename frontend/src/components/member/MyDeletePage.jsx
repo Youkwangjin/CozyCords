@@ -15,26 +15,12 @@ export default function MyUpdatePage() {
     const [userGender, setUserGender] = useState('');
     const [userAddress, setUserAddress] = useState('');
 
-    const [userIdValid, setUserIdValid] = useState(null);
     const [userPwdValid, setUserPwdValid] = useState(null);
-    const [userNameValid, setUserNameValid] = useState(null);
-    const [userTelValid, setUserTelValid] = useState(null);
 
     const [notAllow, setNotAllow] = useState(true);
     const {userNo} = useParams();
     const {setIsLoggedIn} = useAuth();
 
-
-    const handleUserId = (e) => {
-        const newId = e.target.value;
-        setUserId(newId);
-        if (newId.length > 0) {
-            const regex = /^[a-z]+[a-z0-9]{5,19}$/g;
-            setUserIdValid(regex.test(newId));
-        } else {
-            setUserIdValid(null);
-        }
-    };
     const handleUserPwd = (e) => {
         const newPassword = e.target.value;
         setUserPwd(newPassword);
@@ -46,36 +32,9 @@ export default function MyUpdatePage() {
         }
     };
 
-    const handleUserName = (e) => {
-        const newName = e.target.value;
-        setUserName(newName);
-        if (newName.length > 0) {
-            const regex = /^[가-힣]+$/;
-            setUserNameValid(regex.test(newName));
-        } else {
-            setUserNameValid(null);
-        }
-    };
-
-    const handleUserTel = (e) => {
-        const newTel = e.target.value;
-        setUserTel(newTel);
-        if (newTel.length > 0) {
-            const regex = /^01[0-9]-[0-9]{3,4}-[0-9]{4}$/;
-            setUserTelValid(regex.test(newTel));
-        } else {
-            setUserTelValid(null);
-        }
-    };
-
-    const handleUserNickname = (e) => setUserNickname(e.target.value);
-    const handleUserAge = (e) => setUserAge(e.target.value);
-    const handleUserGender = (e) => setUserGender(e.target.value);
-    const handleUserAddress = (e) => setUserAddress(e.target.value);
-
     useEffect(() => {
-        setNotAllow(!(userIdValid !== false && userPwdValid !== false && userNameValid !== false && userTelValid !== false));
-    }, [userIdValid, userPwdValid, userNameValid, userTelValid]);
+        setNotAllow(!(userPwdValid !== false));
+    }, [userPwdValid]);
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -160,12 +119,7 @@ export default function MyUpdatePage() {
                             name="userId"
                             value={userId}
                             readOnly
-                            onChange={handleUserId}/>
-                    </div>
-                    <div className="errorMessageWrap">
-                        {userIdValid === false && (
-                            <div className="errorMessage">올바른 아이디를 입력해주세요.</div>
-                        )}
+                        />
                     </div>
                     <div style={{marginTop: "26px"}} className="inputTitle">비밀번호</div>
                     <div className="inputWrap">
@@ -191,14 +145,7 @@ export default function MyUpdatePage() {
                             name="userName"
                             value={userName}
                             readOnly
-                            onChange={handleUserName}/>
-                    </div>
-                    <div className="errorMessageWrap">
-                        {
-                            userNameValid === false && (
-                                <div className="errorMessage">올바른 이름을 입력해주세요.</div>
-                            )
-                        }
+                        />
                     </div>
                     <div style={{marginTop: "26px"}} className="inputTitle">닉네임</div>
                     <div className="inputWrap">
@@ -207,7 +154,7 @@ export default function MyUpdatePage() {
                             name="userNickname"
                             value={userNickname}
                             readOnly
-                            onChange={handleUserNickname}/>
+                        />
                     </div>
                     <div style={{marginTop: "26px"}} className="inputTitle">나이</div>
                     <div className="inputWrap">
@@ -216,7 +163,7 @@ export default function MyUpdatePage() {
                             name="userAge"
                             value={userAge}
                             readOnly
-                            onChange={handleUserAge}/>
+                        />
                     </div>
                     <div style={{marginTop: "26px"}} className="inputTitle">성별</div>
                     <div className="inputWrap">
@@ -225,7 +172,7 @@ export default function MyUpdatePage() {
                             name="userGender"
                             value={userGender}
                             readOnly
-                            onChange={handleUserGender}/>
+                        />
                     </div>
                     <div style={{marginTop: "26px"}} className="inputTitle">전화번호</div>
                     <div className="inputWrap">
@@ -234,14 +181,7 @@ export default function MyUpdatePage() {
                             name="userTel"
                             value={userTel}
                             readOnly
-                            onChange={handleUserTel}/>
-                    </div>
-                    <div className="errorMessageWrap">
-                        {
-                            userTelValid === false && (
-                                <div className="errorMessage">올바른 전화번호를 입력해주세요.</div>
-                            )
-                        }
+                        />
                     </div>
                     <div style={{marginTop: "26px"}} className="inputTitle">주소</div>
                     <div className="inputWrap">
@@ -250,7 +190,7 @@ export default function MyUpdatePage() {
                             name="user_address"
                             value={userAddress}
                             readOnly
-                            onChange={handleUserAddress}/>
+                        />
                     </div>
                     <div>
                         <button type="submit" disabled={notAllow} className="bottomButton">회원 탈퇴

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import axios from 'axios';
 import '../../style/MemberPage.css';
 import {useAuth} from '../../AuthContext';
-import { useParams } from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import {jwtDecode} from 'jwt-decode';
 
 export default function MyUpdatePage() {
@@ -15,27 +15,14 @@ export default function MyUpdatePage() {
     const [userGender, setUserGender] = useState('');
     const [userAddress, setUserAddress] = useState('');
 
-    const [userIdValid, setUserIdValid] = useState(null);
     const [userPwdValid, setUserPwdValid] = useState(null);
     const [userNameValid, setUserNameValid] = useState(null);
     const [userTelValid, setUserTelValid] = useState(null);
 
     const [notAllow, setNotAllow] = useState(true);
-    const { userNo } = useParams();
+    const {userNo} = useParams();
     const {setIsLoggedIn} = useAuth();
 
-
-
-    const handleUserId = (e) => {
-        const newId = e.target.value;
-        setUserId(newId);
-        if (newId.length > 0) {
-            const regex = /^[a-z]+[a-z0-9]{5,19}$/g;
-            setUserIdValid(regex.test(newId));
-        } else {
-            setUserIdValid(null);
-        }
-    };
     const handleUserPwd = (e) => {
         const newPassword = e.target.value;
         setUserPwd(newPassword);
@@ -75,15 +62,15 @@ export default function MyUpdatePage() {
     const handleUserAddress = (e) => setUserAddress(e.target.value);
 
     useEffect(() => {
-        setNotAllow(!(userIdValid !== false && userPwdValid !== false && userNameValid !== false && userTelValid !== false));
-    }, [userIdValid, userPwdValid, userNameValid, userTelValid]);
+        setNotAllow(!(userPwdValid !== false && userNameValid !== false && userTelValid !== false));
+    }, [userPwdValid, userNameValid, userTelValid]);
 
     useEffect(() => {
         const fetchUserData = async () => {
             try {
                 const token = localStorage.getItem('userToken');
                 const config = {
-                    headers: { 'Authorization': `Bearer ${token}` }
+                    headers: {'Authorization': `Bearer ${token}`}
                 };
                 const response = await axios.get(`http://localhost:8080/api/user/info/${userNo}`, config);
                 const userData = response.data;
@@ -161,12 +148,7 @@ export default function MyUpdatePage() {
                             name="userId"
                             value={userId}
                             readOnly
-                            onChange={handleUserId}/>
-                    </div>
-                    <div className="errorMessageWrap">
-                        {userIdValid === false && (
-                            <div className="errorMessage">올바른 아이디를 입력해주세요.</div>
-                        )}
+                        />
                     </div>
                     <div style={{marginTop: "26px"}} className="inputTitle">비밀번호</div>
                     <div className="inputWrap">
