@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {useAuth} from '../../AuthContext';
-import '../../style/Header.css';
+import '../../style/header/Header.css';
 
 function MyPageHeader() {
     const navigate = useNavigate();
@@ -28,7 +28,6 @@ function MyPageHeader() {
                 </Link>
             </div>
             <nav className="navigation">
-                <Link to="/">Home</Link>
                 <Link to="/community">공지사항</Link>
                 <Link to="/community">커뮤니티</Link>
                 <div className="dropdown">

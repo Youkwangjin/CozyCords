@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {useAuth} from '../../AuthContext';
-import '../../style/Header.css';
+import '../../style/header/Header.css';
 
 function AdminHeader() {
     const navigate = useNavigate();
@@ -26,7 +26,6 @@ function AdminHeader() {
                 </Link>
             </div>
             <nav className="navigation">
-                <Link to="/">Home</Link>
                 <Link to="/admin/community">공지사항 관리</Link>
                 <Link to="/admin/community">커뮤니티 관리</Link>
                 <div className="dropdown">

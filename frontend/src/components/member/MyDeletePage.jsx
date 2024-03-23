@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import axios from 'axios';
-import '../../style/MemberPage.css';
+import '../../style/member/MemberPage.css';
 import {useAuth} from '../../AuthContext';
 import {useParams} from 'react-router-dom';
 import {jwtDecode} from 'jwt-decode';

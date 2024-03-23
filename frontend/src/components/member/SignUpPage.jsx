@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import axios from 'axios';
-import '../../style/MemberPage.css';
+import '../../style/member/MemberPage.css';
 
 export default function LoginPage() {
     const [userId, setUserId] = useState('');
