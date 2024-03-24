@@ -6,6 +6,7 @@
     align-items: center;
     width: 100%;
     font-family: 'Roboto', sans-serif;
+    border-bottom: 1px solid #cccccc;
 }
 
 .logo img {
