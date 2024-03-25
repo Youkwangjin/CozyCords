@@ -11,7 +11,7 @@ function Header() {
                 </Link>
             </div>
             <nav className="navigation">
-                <Link to="/announcement">공지사항</Link>
+                <Link to="/board">공지사항</Link>
                 <Link to="/community">커뮤니티</Link>
             </nav>
             <div className="header-links">

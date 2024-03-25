@@ -1,0 +1,29 @@
+.board-list-container {
+    width: 95%;
+    margin: 20px auto;
+}
+
+.board-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.board-list-title {
+    flex: 1;
+}
+
+.table {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.table th, .table td {
+    text-align: center;
+    padding: 10px;
+}
+
+.table th {
+    background-color: #f9f9f9;
+}

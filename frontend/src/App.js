@@ -11,6 +11,10 @@ import MyDeletePage from './components/member/MyDeletePage';
 import AdminPage from "./components/admin/AdminPage";
 import AdminHeader from "./components/admin/AdminHeader";
 import AdminUserInfoList from "./components/admin/AdminUserInfoList";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import BoardList from "./components/board/BoardList";
+import BoardWrite from "./components/board/BoardWrite";
+import BoardDetail from "./components/board/BoardDetail";
 
 function App() {
     return (
@@ -23,6 +27,9 @@ function App() {
                         {/* 사용자 라우트 */}
                         <Route path="/login" element={<WithHeader><LoginPage/></WithHeader>}/>
                         <Route path="/signup" element={<WithHeader><SignUpPage/></WithHeader>}/>
+                        <Route path="/board" element={<WithHeader><BoardList/></WithHeader>}/>
+                        <Route path="/board/write" element={<WithHeader><BoardWrite/></WithHeader>}/>
+                        <Route path="/board/detail/:boardId" element={<WithHeader><BoardDetail/></WithHeader>}/>
                         <Route path="/profile/update/:userNo" element={<WithHeader><MyUpdatePage/></WithHeader>} />
                         <Route path="/profile/delete/:userNo" element={<WithHeader><MyDeletePage/></WithHeader>}/>
                         {/* 관리자 라우트 */}
