@@ -71,10 +71,12 @@ public class MemberUpdateServiceImpl implements MemberUpdateService {
         // 나머지 정보를 업데이트
         memberEntity.setUserNo(memberEntity.getUserNo());
         memberEntity.setUserName(memberDTO.getUserName());
-        memberEntity.setUserNickname(memberDTO.getUserNickname());
         memberEntity.setUserAge(memberDTO.getUserAge());
         memberEntity.setUserTel(memberDTO.getUserTel());
-        memberEntity.setUserAddress(memberDTO.getUserAddress());
+        memberEntity.setUserHeight(memberDTO.getUserHeight());
+        memberEntity.setUserWidth(memberDTO.getUserWidth());
+        memberEntity.setUserShoeSize(memberDTO.getUserShoeSize());
+
 
         memberRepository.save(memberEntity);
 

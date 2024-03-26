@@ -37,9 +37,6 @@ public class MemberEntity {
     @Column(name = "user_name", nullable = false)
     private String userName;
 
-    @Column(name = "user_nickname", nullable = false)
-    private String userNickname;
-
     @Column(name = "user_age", nullable = false)
     private int userAge;
 
@@ -49,8 +46,14 @@ public class MemberEntity {
     @Column(name = "user_tel", nullable = false)
     private String userTel;
 
-    @Column(name = "user_addr", nullable = false)
-    private String userAddress;
+    @Column(name = "user_height", nullable = false)
+    private int userHeight;
+
+    @Column(name = "user_width", nullable = false)
+    private int userWidth;
+
+    @Column(name = "user_shoe_size", nullable = false)
+    private String userShoeSize;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "user_role")
@@ -69,11 +72,12 @@ public class MemberEntity {
                 .userId(memberDTO.getUserId())
                 .userPwd(memberDTO.getUserPwd())
                 .userName(memberDTO.getUserName())
-                .userNickname(memberDTO.getUserNickname())
                 .userAge(memberDTO.getUserAge())
                 .userGender(memberDTO.getUserGender())
                 .userTel(memberDTO.getUserTel())
-                .userAddress(memberDTO.getUserAddress())
+                .userHeight(memberDTO.getUserHeight())
+                .userWidth(memberDTO.getUserWidth())
+                .userShoeSize(memberDTO.getUserShoeSize())
                 .build();
     }
 }

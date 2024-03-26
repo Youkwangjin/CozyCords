@@ -18,11 +18,12 @@ public class MemberDTO {
     private String userId;
     private String userPwd;
     private String userName;
-    private String userNickname;
     private int userAge;
     private String userGender;
     private String userTel;
-    private String userAddress;
+    private int userHeight;
+    private int userWidth;
+    private String userShoeSize;
     private UserRole userRole;
     private LocalDateTime userCreated;
     private LocalDateTime userUpdated;
@@ -33,11 +34,12 @@ public class MemberDTO {
                 .userId(memberEntity.getUserId())
                 .userPwd(memberEntity.getUserPwd())
                 .userName(memberEntity.getUserName())
-                .userNickname(memberEntity.getUserNickname())
                 .userAge(memberEntity.getUserAge())
                 .userGender(memberEntity.getUserGender())
                 .userTel(memberEntity.getUserTel())
-                .userAddress(memberEntity.getUserAddress())
+                .userHeight(memberEntity.getUserHeight())
+                .userWidth(memberEntity.getUserWidth())
+                .userShoeSize(memberEntity.getUserShoeSize())
                 .userRole(memberEntity.getUserRole())
                 .userCreated(memberEntity.getUserCreated())
                 .userUpdated(memberEntity.getUserUpdated())
