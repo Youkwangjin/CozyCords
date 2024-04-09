@@ -74,7 +74,7 @@ public class MemberUpdateServiceImpl implements MemberUpdateService {
         memberEntity.setUserAge(memberDTO.getUserAge());
         memberEntity.setUserTel(memberDTO.getUserTel());
         memberEntity.setUserHeight(memberDTO.getUserHeight());
-        memberEntity.setUserWidth(memberDTO.getUserWidth());
+        memberEntity.setUserWeight(memberDTO.getUserWeight());
         memberEntity.setUserShoeSize(memberDTO.getUserShoeSize());
 
 

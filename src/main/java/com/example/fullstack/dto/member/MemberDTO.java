@@ -22,7 +22,7 @@ public class MemberDTO {
     private String userGender;
     private String userTel;
     private int userHeight;
-    private int userWidth;
+    private int userWeight;
     private String userShoeSize;
     private UserRole userRole;
     private LocalDateTime userCreated;
@@ -38,7 +38,7 @@ public class MemberDTO {
                 .userGender(memberEntity.getUserGender())
                 .userTel(memberEntity.getUserTel())
                 .userHeight(memberEntity.getUserHeight())
-                .userWidth(memberEntity.getUserWidth())
+                .userWeight(memberEntity.getUserWeight())
                 .userShoeSize(memberEntity.getUserShoeSize())
                 .userRole(memberEntity.getUserRole())
                 .userCreated(memberEntity.getUserCreated())

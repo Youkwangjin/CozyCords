@@ -23,6 +23,7 @@ public class MemberServiceImpl implements MemberService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
+
     @Override
     public void memberSingUp(MemberDTO memberDTO) {
         String encodedPassword = passwordEncoder.encode(memberDTO.getUserPwd());
