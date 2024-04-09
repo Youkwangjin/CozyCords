@@ -20,7 +20,7 @@ export default function LoginPage() {
     const handleUserId = (e) => {
         const newId = e.target.value;
         setUserId(newId);
-        const regex = /^[a-z]+[a-z0-9]{5,19}$/g;
+        const regex = /^[a-z]+[a-z0-9._%+-]{0,29}@[a-z0-9.-]+\.[a-z]{2,4}$|^[a-z]+[a-z0-9]{5,29}$/gi;
         setUserIdValid(regex.test(newId));
     }
 

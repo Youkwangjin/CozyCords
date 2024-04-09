@@ -6,17 +6,21 @@ export default function LoginPage() {
     const [userId, setUserId] = useState('');
     const [userPwd, setUserPwd] = useState('');
     const [userName, setUserName] = useState('');
-    const [userTel, setUserTel] = useState('');
-    const [userNickname, setUserNickname] = useState('');
     const [userAge, setUserAge] = useState('');
     const [userGender, setUserGender] = useState('');
-    const [userAddress, setUserAddress] = useState('');
+    const [userTel, setUserTel] = useState('');
+    const [userHeight, setUserHeight] = useState('');
+    const [userWeight, setUserWeight] = useState('');
+    const [userShoeSize, setUserShoeSize] = useState('');
 
     const [userIdValid, setUserIdValid] = useState(null);
     const [userPwdValid, setUserPwdValid] = useState(false);
     const [userNameValid, setUserNameValid] = useState(false);
     const [userGenderValid, setUserGenderValid] = useState(false);
     const [userTelValid, setUserTelValid] = useState(false);
+    const [userHeightValid, setUserHeightValid] = useState(false);
+    const [userWeightValid, setUserWeightValid] = useState(false);
+    const [userShoeSizeValid, setUserShoeSizeValid] = useState(false);
     const [userIdMessage, setUserIdMessage] = useState('');
 
     const [notAllow, setNotAllow] = useState(true);
@@ -31,7 +35,7 @@ export default function LoginPage() {
     const handleUserId = (e) => {
         const newId = e.target.value;
         setUserId(newId);
-        const regex = /^[a-z]+[a-z0-9]{5,19}$/g;
+        const regex = /^[a-z]+[a-z0-9._%+-]{0,29}@[a-z0-9.-]+\.[a-z]{2,4}$|^[a-z]+[a-z0-9]{5,29}$/gi;
 
         if (regex.test(newId)) {
             clearTimeout(debounceCheck); // 이전 타이머 초기화
@@ -100,18 +104,54 @@ export default function LoginPage() {
             setUserTelValid(false);
         }
     }
-
-    const handleUserNickname = (e) => setUserNickname(e.target.value);
     const handleUserAge = (e) => setUserAge(e.target.value);
-    const handleUserAddress = (e) => setUserAddress(e.target.value);
+
+    const handleUserHeight = (e) => {
+        const newHeight = e.target.value;
+        setUserHeight(newHeight);
+        const regex = /^[0-9]+$/;
+        const height = parseInt(newHeight, 10);
+        if (regex.test(newHeight) && height >= 100 && height <= 250) {
+            setUserHeightValid(true);
+        } else {
+            setUserHeightValid(false);
+        }
+    }
+
+    const handleUserWeight = (e) => {
+        const newWeight = e.target.value;
+        setUserWeight(newWeight);
+        const regex = /^[0-9]+$/;
+        const weight = parseInt(newWeight, 10);
+        if (regex.test(newWeight) && weight >= 100 && weight <= 250) {
+            setUserWeightValid(true);
+        } else {
+            setUserWeightValid(false);
+        }
+    }
+
+    const handleUserShoeSize = (e) => {
+        const newShoeSize = e.target.value;
+        setUserShoeSize(newShoeSize);
+        const regex = /^[0-9]+$/;
+        const shoeSize = parseInt(newShoeSize, 10);
+        if (regex.test(newShoeSize) && shoeSize >= 200 && shoeSize <= 320 && shoeSize % 5 === 0) {
+            setUserShoeSizeValid(true);
+        } else {
+            setUserShoeSizeValid(false);
+        }
+    }
+
 
     useEffect(() => {
-        if (userIdValid && userPwdValid && userNameValid && userGenderValid && userTelValid) {
+        if (userIdValid && userPwdValid && userNameValid && userGenderValid && userTelValid && userHeight && userWeight
+            && userShoeSize) {
             setNotAllow(false);
             return;
         }
         setNotAllow(true);
-    }, [userIdValid, userPwdValid, userNameValid, userGenderValid, userTelValid]);
+    }, [userIdValid, userPwdValid, userNameValid, userGenderValid, userTelValid, userHeightValid, userWeightValid,
+             userShoeSizeValid]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -122,10 +162,11 @@ export default function LoginPage() {
                     userPwd,
                     userName,
                     userTel,
-                    userNickname,
                     userAge,
                     userGender,
-                    userAddress
+                    userHeight,
+                    userWeight,
+                    userShoeSize
                 });
                 window.location.href = '/login';
             } catch (error) {
@@ -187,15 +228,6 @@ export default function LoginPage() {
                             )
                         }
                     </div>
-                    <div style={{marginTop: "26px"}} className="inputTitle">닉네임</div>
-                    <div className="inputWrap">
-                        <input
-                            className="input"
-                            name="userNickname"
-                            value={userNickname}
-                            placeholder="닉네임을 입력해주세요."
-                            onChange={handleUserNickname}/>
-                    </div>
                     <div style={{marginTop: "26px"}} className="inputTitle">나이</div>
                     <div className="inputWrap">
                         <input
@@ -237,14 +269,53 @@ export default function LoginPage() {
                             )
                         }
                     </div>
-                    <div style={{marginTop: "26px"}} className="inputTitle">주소</div>
+                    <div style={{marginTop: "26px"}} className="inputTitle">키</div>
                     <div className="inputWrap">
                         <input
                             className="input"
-                            name="user_address"
-                            value={userAddress}
-                            placeholder="주소를 입력해주세요."
-                            onChange={handleUserAddress}/>
+                            name="userHeight"
+                            value={userHeight}
+                            placeholder="키를 입력해주세요"
+                            onChange={handleUserHeight}/>
+                    </div>
+                    <div className="errorMessageWrap">
+                        {
+                            !userHeight && userHeight.length > 0 && (
+                                <div>올바른 키를 입력해주세요.</div>
+                            )
+                        }
+                    </div>
+                    <div style={{marginTop: "26px"}} className="inputTitle">몸무게</div>
+                    <div className="inputWrap">
+                        <input
+                            className="input"
+                            name="userWeight"
+                            value={userWeight}
+                            placeholder="몸무게를 입력해주세요"
+                            onChange={handleUserWeight}/>
+                    </div>
+                    <div className="errorMessageWrap">
+                        {
+                            !userWeight && userWeight.length > 0 && (
+                                <div>올바른 몸무게를 입력해주세요.</div>
+                            )
+                        }
+                    </div>
+                    <div style={{marginTop: "26px"}} className="inputTitle">신발사이즈</div>
+                    <div className="inputWrap">
+                        <input
+                            className="input"
+                            name="userShoeSize"
+                            value={userShoeSize}
+                            placeholder="신발사이즈를 입력해주세요"
+                            onChange={handleUserShoeSize}/>
+                    </div>
+                    <div className="errorMessageWrap">
+                        {
+                            !userShoeSize && userShoeSize.length > 0 && (
+                                <div>올바른 신발사이즈를 입력해주세요.</div>
+                            )
+                        }
                     </div>
                     <div>
                         <button type="submit" disabled={notAllow} className="bottomButton">확인

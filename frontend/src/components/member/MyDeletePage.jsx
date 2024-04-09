@@ -10,10 +10,11 @@ export default function MyUpdatePage() {
     const [userPwd, setUserPwd] = useState('');
     const [userName, setUserName] = useState('');
     const [userTel, setUserTel] = useState('');
-    const [userNickname, setUserNickname] = useState('');
     const [userAge, setUserAge] = useState('');
     const [userGender, setUserGender] = useState('');
-    const [userAddress, setUserAddress] = useState('');
+    const [userHeight, setUserHeight] = useState('');
+    const [userWeight, setUserWeight] = useState('');
+    const [userShoeSize, setUserShoeSize] = useState('');
 
     const [userPwdValid, setUserPwdValid] = useState(null);
 
@@ -48,10 +49,11 @@ export default function MyUpdatePage() {
                 setUserId(userData.userId);
                 setUserName(userData.userName);
                 setUserTel(userData.userTel);
-                setUserNickname(userData.userNickname);
                 setUserAge(userData.userAge);
                 setUserGender(userData.userGender);
-                setUserAddress(userData.userAddress);
+                setUserHeight(userData.userHeight);
+                setUserWeight(userData.userWeight);
+                setUserShoeSize(userData.userShoeSize);
             } catch (error) {
                 console.error("사용자 정보 불러오기 오류", error);
             }
@@ -75,10 +77,8 @@ export default function MyUpdatePage() {
                     userPwd,
                     userName,
                     userTel,
-                    userNickname,
                     userAge,
                     userGender,
-                    userAddress
                 }, config);
                 // 관리자 여부를 확인
                 if (token) {
@@ -147,15 +147,6 @@ export default function MyUpdatePage() {
                             readOnly
                         />
                     </div>
-                    <div style={{marginTop: "26px"}} className="inputTitle">닉네임</div>
-                    <div className="inputWrap">
-                        <input
-                            className="input"
-                            name="userNickname"
-                            value={userNickname}
-                            readOnly
-                        />
-                    </div>
                     <div style={{marginTop: "26px"}} className="inputTitle">나이</div>
                     <div className="inputWrap">
                         <input
@@ -183,12 +174,30 @@ export default function MyUpdatePage() {
                             readOnly
                         />
                     </div>
-                    <div style={{marginTop: "26px"}} className="inputTitle">주소</div>
+                    <div style={{marginTop: "26px"}} className="inputTitle">키</div>
                     <div className="inputWrap">
                         <input
                             className="input"
-                            name="user_address"
-                            value={userAddress}
+                            name="userHeight"
+                            value={userHeight}
+                            readOnly
+                        />
+                    </div>
+                    <div style={{marginTop: "26px"}} className="inputTitle">몸무게</div>
+                    <div className="inputWrap">
+                        <input
+                            className="input"
+                            name="userWeight"
+                            value={userWeight}
+                            readOnly
+                        />
+                    </div>
+                    <div style={{marginTop: "26px"}} className="inputTitle">신발사이즈</div>
+                    <div className="inputWrap">
+                        <input
+                            className="input"
+                            name="userShoeSize"
+                            value={userShoeSize}
                             readOnly
                         />
                     </div>
