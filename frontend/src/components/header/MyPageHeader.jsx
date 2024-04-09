@@ -28,7 +28,7 @@ function MyPageHeader() {
                 </Link>
             </div>
             <nav className="navigation">
-                <Link to="/community">공지사항</Link>
+                <Link to="/board">공지사항</Link>
                 <Link to="/community">커뮤니티</Link>
                 <div className="dropdown">
                     <button onClick={toggleDropdown} className="dropBtn">마이페이지</button>
