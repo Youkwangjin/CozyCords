@@ -28,31 +28,31 @@ public class MemberEntity {
     @Column(name = "user_no")
     private Long userNo;
 
-    @Column(name = "user_id", unique = true, nullable = false)
+    @Column(name = "user_id", unique = true, nullable = false, length = 50)
     private String userId;
 
     @Column(name = "user_pwd", nullable = false)
     private String userPwd;
 
-    @Column(name = "user_name", nullable = false)
+    @Column(name = "user_name", nullable = false, length = 10)
     private String userName;
 
-    @Column(name = "user_age", nullable = false)
+    @Column(name = "user_age", nullable = false, length = 5)
     private int userAge;
 
-    @Column(name = "user_gender", nullable = false)
+    @Column(name = "user_gender", nullable = false, length = 5)
     private String userGender;
 
-    @Column(name = "user_tel", nullable = false)
+    @Column(name = "user_tel", nullable = false, length = 20)
     private String userTel;
 
-    @Column(name = "user_height", nullable = false)
+    @Column(name = "user_height", nullable = false, length = 5)
     private int userHeight;
 
-    @Column(name = "user_width", nullable = false)
-    private int userWidth;
+    @Column(name = "user_weight", nullable = false, length = 5)
+    private int userWeight;
 
-    @Column(name = "user_shoe_size", nullable = false)
+    @Column(name = "user_shoe_size", nullable = false, length = 5)
     private String userShoeSize;
 
     @Enumerated(EnumType.STRING)
@@ -76,7 +76,7 @@ public class MemberEntity {
                 .userGender(memberDTO.getUserGender())
                 .userTel(memberDTO.getUserTel())
                 .userHeight(memberDTO.getUserHeight())
-                .userWidth(memberDTO.getUserWidth())
+                .userWeight(memberDTO.getUserWeight())
                 .userShoeSize(memberDTO.getUserShoeSize())
                 .build();
     }
